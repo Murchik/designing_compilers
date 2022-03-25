@@ -1,7 +1,7 @@
 CC=g++
-CFLAGS=-Wall -g
+CFLAGS=-c -Wall -g
 
-SOURCES=main.cpp
+SOURCES=$(wildcard *.cpp)
 
 OBJ_DIR=obj
 OBJECTS=$(SOURCES:.cpp=.o)
