@@ -6,16 +6,18 @@
 
 class elevator {
    public:
-    void press(int floor_number) { panel_.press(floor_number); }
+    void press_inside(int floor_number);
+    void press_outside(int floor_number);
 
-    void reset(int floor_number) { panel_.reset(floor_number); }
+    states state();
 
-    states state() { return state_; }
+    void update_state();
 
-    void change_state(int i);
+    states get_new_state(buttons_panel<7>& panel);
 
    private:
-    buttons_panel<7> panel_;
+    buttons_panel<7> panel_inner_;
+    buttons_panel<7> panel_outer_;
     states state_ = first_stop;
 };
 

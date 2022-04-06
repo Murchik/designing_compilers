@@ -1,154 +1,175 @@
 #include "elevator.hpp"
 
-void elevator::change_state(int i) {
-    switch (state_) {
+void elevator::press_inside(int floor_number) {
+    panel_inner_.press(floor_number);
+}
+void elevator::press_outside(int floor_number) {
+    panel_outer_.press(floor_number);
+}
+
+states elevator::state() { return state_; }
+
+void elevator::update_state() {
+    states state_new = get_new_state(panel_inner_);
+    if (state_ == state_new) {
+        state_new = get_new_state(panel_outer_);
+    }
+    state_ = state_new;
+}
+
+states elevator::get_new_state(buttons_panel<7>& p) {
+    states state = state_;
+
+    switch (state) {
         case first_stop:
-            panel_.reset(1);
-            if (panel_.check_range(2, 7)) {
-                state_ = first_going_up;
+            p.reset(1);
+            if (p.check_range(2, 7)) {
+                state = first_going_up;
             }
             break;
 
         case first_going_up:
-            if (panel_.check(2)) {
-                state_ = second_stop;
-            } else if (panel_.check_range(3, 7)) {
-                state_ = second_going_up;
+            if (p.check(2)) {
+                state = second_stop;
+            } else if (p.check_range(3, 7)) {
+                state = second_going_up;
             }
             break;
 
         case second_going_down:
-            state_ = first_stop;
+            state = first_stop;
             break;
 
         case second_stop:
-            panel_.reset(2);
-            if (panel_.check(1)) {
-                state_ = second_going_down;
+            p.reset(2);
+            if (p.check(1)) {
+                state = second_going_down;
             }
             break;
 
         case second_going_up:
-            if (panel_.check(3)) {
-                state_ = third_stop;
-            } else if (panel_.check_range(4, 7)) {
-                state_ = third_going_up;
+            if (p.check(3)) {
+                state = third_stop;
+            } else if (p.check_range(4, 7)) {
+                state = third_going_up;
             }
             break;
 
         case third_going_down:
-            if (panel_.check(1)) {
-                state_ = second_going_down;
-            } else if (panel_.check(2)) {
-                state_ = second_stop;
+            if (p.check(1)) {
+                state = second_going_down;
+            } else if (p.check(2)) {
+                state = second_stop;
             }
             break;
 
         case third_stop:
-            panel_.reset(3);
-            if (panel_.check_range(1, 2)) {
-                state_ = third_going_down;
-            } else if (panel_.check_range(3, 7)) {
-                state_ = third_going_up;
+            p.reset(3);
+            if (p.check_range(1, 2)) {
+                state = third_going_down;
+            } else if (p.check_range(3, 7)) {
+                state = third_going_up;
             }
             break;
 
         case third_going_up:
-            if (panel_.check(4)) {
-                state_ = fourth_stop;
-            } else if (panel_.check_range(5, 7)) {
-                state_ = fourth_going_up;
+            if (p.check(4)) {
+                state = fourth_stop;
+            } else if (p.check_range(5, 7)) {
+                state = fourth_going_up;
             }
             break;
 
         case fourth_going_down:
-            if (panel_.check(3)) {
-                state_ = third_stop;
-            } else if (panel_.check_range(1, 2)) {
-                state_ = third_going_down;
+            if (p.check(3)) {
+                state = third_stop;
+            } else if (p.check_range(1, 2)) {
+                state = third_going_down;
             }
             break;
 
         case fourth_stop:
-            panel_.reset(4);
-            if (panel_.check_range(1, 3)) {
-                state_ = fourth_going_down;
-            } else if (panel_.check_range(5, 7)) {
-                state_ = fourth_going_up;
+            p.reset(4);
+            if (p.check_range(1, 3)) {
+                state = fourth_going_down;
+            } else if (p.check_range(5, 7)) {
+                state = fourth_going_up;
             }
             break;
 
         case fourth_going_up:
-            if (panel_.check(5)) {
-                state_ = fifth_stop;
-            } else if (panel_.check_range(6, 7)) {
-                state_ = fifth_going_up;
+            if (p.check(5)) {
+                state = fifth_stop;
+            } else if (p.check_range(6, 7)) {
+                state = fifth_going_up;
             }
             break;
 
         case fifth_going_down:
-            if (panel_.check(4)) {
-                state_ = fourth_stop;
-            } else if (panel_.check_range(1, 3)) {
-                state_ = fourth_going_down;
+            if (p.check(4)) {
+                state = fourth_stop;
+            } else if (p.check_range(1, 3)) {
+                state = fourth_going_down;
             }
             break;
 
         case fifth_stop:
-            panel_.reset(5);
-            if (panel_.check_range(1, 4)) {
-                state_ = fifth_going_down;
-            } else if (panel_.check_range(6, 7)) {
-                state_ = fifth_going_up;
+            p.reset(5);
+            if (p.check_range(1, 4)) {
+                state = fifth_going_down;
+            } else if (p.check_range(6, 7)) {
+                state = fifth_going_up;
             }
             break;
 
         case fifth_going_up:
-            if (panel_.check(6)) {
-                state_ = sixth_stop;
-            } else if (panel_.check(7)) {
-                state_ = sixth_going_up;
+            if (p.check(6)) {
+                state = sixth_stop;
+            } else if (p.check(7)) {
+                state = sixth_going_up;
             }
             break;
 
         case sixth_going_down:
-            if (panel_.check(5)) {
-                state_ = fifth_stop;
-            } else if (panel_.check_range(1, 4)) {
-                state_ = fifth_going_down;
+            if (p.check(5)) {
+                state = fifth_stop;
+            } else if (p.check_range(1, 4)) {
+                state = fifth_going_down;
             }
             break;
 
         case sixth_stop:
-            panel_.reset(6);
-            if (panel_.check_range(1, 5)) {
-                state_ = sixth_going_down;
-            } else if (panel_.check(7)) {
-                state_ = sixth_going_up;
+            p.reset(6);
+            if (p.check_range(1, 5)) {
+                state = sixth_going_down;
+            } else if (p.check(7)) {
+                state = sixth_going_up;
             }
             break;
 
         case sixth_going_up:
-            if (panel_.check(7)) {
-                state_ = seventh_stop;
+            if (p.check(7)) {
+                state = seventh_stop;
             }
             break;
 
         case seventh_going_down:
-            if (panel_.check(6)) {
-                state_ = sixth_stop;
-            } else if (panel_.check_range(1, 5)) {
-                state_ = sixth_going_down;
+            if (p.check(6)) {
+                state = sixth_stop;
+            } else if (p.check_range(1, 5)) {
+                state = sixth_going_down;
             }
             break;
 
         case seventh_stop:
-            panel_.reset(7);
-            if (panel_.check_range(1, 6)) {
-                state_ = seventh_going_down;
+            p.reset(7);
+            if (p.check_range(1, 6)) {
+                state = seventh_going_down;
             }
             break;
         default:
             break;
     }
+
+    return state;
 }
