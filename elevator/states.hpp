@@ -23,4 +23,6 @@ enum states {
     seventh_stop
 };
 
+void print_state(states s);
+
 #endif
