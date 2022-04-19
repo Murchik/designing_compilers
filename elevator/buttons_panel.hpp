@@ -10,9 +10,9 @@ class buttons_panel {
 
     void reset(int floor_number) { buttons_[floor_number - 1] = false; }
 
-    bool check(int floor_number) { return buttons_[floor_number - 1]; }
+    bool check(int floor_number) const { return buttons_[floor_number - 1]; }
 
-    bool check_range(int l, int r) {
+    bool check_range(int l, int r) const {
         bool result = false;
         for (int index = l - 1; index < r; index++) {
             result = result || buttons_[index];

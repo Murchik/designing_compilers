@@ -9,11 +9,11 @@ class elevator {
     void press_inside(int floor_number);
     void press_outside(int floor_number);
 
-    states state();
+    states state() const;
 
     void update_state();
 
-    states get_new_state(buttons_panel<7>& panel);
+    states get_new_state();
 
    private:
     buttons_panel<7> panel_inner_;
