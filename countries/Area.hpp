@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 
 class Area {
@@ -16,6 +17,8 @@ class Area {
 
     std::string getName() const;
     std::string setName(const std::string& name);
+
+    friend std::ostream& operator<<(std::ostream& os, const Area& c);
 
    protected:
     int _area{0};

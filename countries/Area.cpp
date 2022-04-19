@@ -21,3 +21,8 @@ std::string Area::setName(const std::string& name) {
     _name = name;
     return getName();
 }
+
+std::ostream& operator<<(std::ostream& os, const Area& a) {
+    os << a.getName() << " : " << a.getArea();
+    return os;
+}
