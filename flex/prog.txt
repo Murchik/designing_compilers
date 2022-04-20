@@ -1,1 +1,4 @@
-for(abc1:=.;abc1<11.0E+1;abc1:=abc1>.1)do abc1:=abc1=34E5;
+abc := 10;
+while(abc > 0)
+    "Hohland_1337";
+done
