@@ -8,7 +8,6 @@ letter[a-zA-Z]
 delim[();]
 oper[<>=]
 ws[ \t\n]
-literal[".*"]
 %%
 while { printf("KEYWORD (%d, %d): %s\n", yylineno, ch, yytext);
  ch += yyleng;
@@ -19,14 +18,14 @@ done { printf("KEYWORD (%d, %d): %s\n", yylineno, ch, yytext);
 {delim} { printf("DELIMITER (%d, %d): %s\n", yylineno, ch, yytext);
  ch += yyleng;
  }
-("_"|{letter})("_"|{letter}|{digit})* {
- printf("IDENTIFIER (%d, %d): %s\n", yylineno, ch, yytext);
- ch += yyleng;
- }
 {oper} { printf("OPERATION (%d, %d): %s\n", yylineno, ch, yytext);
  ch += yyleng;
 }
-{literal} { printf("LITERAL (%d, %d): %s\n", yylineno, ch, yytext);
+(\".*\") { printf("LITERAL (%d, %d): %s\n", yylineno, ch, yytext);
+ ch += yyleng;
+ }
+("_"|{letter})("_"|{letter}|{digit})* {
+ printf("IDENTIFIER (%d, %d): %s\n", yylineno, ch, yytext);
  ch += yyleng;
  }
 ":=" { printf("OPERATION (%d, %d): %s\n", yylineno, ch, yytext);
