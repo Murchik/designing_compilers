@@ -29,12 +29,15 @@ states elevator::get_new_state() {
             break;
 
         case first_going_up:
-            if (panel_inner_.check(2)) {
+            if (panel_outer_.check_range(3, 7)) {
+                state = second_going_up;
+                break;
+            }
+            if (panel_inner_.check(2) || panel_outer_.check(2)) {
                 state = second_stop;
                 break;
             }
-            if (panel_inner_.check_range(3, 7) ||
-                panel_outer_.check_range(3, 7)) {
+            if (panel_inner_.check_range(3, 7)) {
                 state = second_going_up;
                 break;
             }
@@ -59,12 +62,15 @@ states elevator::get_new_state() {
             break;
 
         case second_going_up:
-            if (panel_inner_.check(3)) {
+            if (panel_outer_.check_range(4, 7)) {
+                state = third_going_up;
+                break;
+            }
+            if (panel_inner_.check(3) || panel_outer_.check(3)) {
                 state = third_stop;
                 break;
             }
-            if (panel_inner_.check_range(4, 7) ||
-                panel_outer_.check_range(4, 7)) {
+            if (panel_inner_.check_range(4, 7)) {
                 state = third_going_up;
                 break;
             }
@@ -97,12 +103,15 @@ states elevator::get_new_state() {
             break;
 
         case third_going_up:
-            if (panel_inner_.check(4)) {
+            if (panel_outer_.check_range(5, 7)) {
+                state = fourth_going_up;
+                break;
+            }
+            if (panel_inner_.check(4) || panel_outer_.check(4)) {
                 state = fourth_stop;
                 break;
             }
-            if (panel_inner_.check_range(5, 7) ||
-                panel_outer_.check_range(5, 7)) {
+            if (panel_inner_.check_range(5, 7)) {
                 state = fourth_going_up;
                 break;
             }
@@ -136,12 +145,15 @@ states elevator::get_new_state() {
             break;
 
         case fourth_going_up:
-            if (panel_inner_.check(5)) {
+            if (panel_outer_.check_range(6, 7)) {
+                state = fifth_going_up;
+                break;
+            }
+            if (panel_inner_.check(5) || panel_outer_.check(5)) {
                 state = fifth_stop;
                 break;
             }
-            if (panel_inner_.check_range(6, 7) ||
-                panel_outer_.check_range(6, 7)) {
+            if (panel_inner_.check_range(6, 7)) {
                 state = fifth_going_up;
                 break;
             }
@@ -175,11 +187,15 @@ states elevator::get_new_state() {
             break;
 
         case fifth_going_up:
-            if (panel_inner_.check(6)) {
+            if (panel_outer_.check(7)) {
+                state = sixth_going_up;
+                break;
+            }
+            if (panel_inner_.check(6) || panel_outer_.check(6)) {
                 state = sixth_stop;
                 break;
             }
-            if (panel_inner_.check(7) || panel_outer_.check(7)) {
+            if (panel_inner_.check(7)) {
                 state = sixth_going_up;
                 break;
             }
