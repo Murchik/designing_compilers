@@ -19,6 +19,7 @@ class Area {
 
     virtual Area* createChild() = 0;
     virtual Area* createSibling() = 0;
+    virtual bool isValid() = 0;
 
     friend std::ostream& operator<<(std::ostream& os, const Area& c);
 

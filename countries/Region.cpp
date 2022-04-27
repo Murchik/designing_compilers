@@ -6,9 +6,9 @@ Region::Region() {}
 
 Region::~Region() {}
 
-bool Region::isValid() const {
+bool Region::isValid() {
     int districtsArea = 0;
-    for (const auto& district : _districts) {
+    for (auto& district : _districts) {
         districtsArea += district->getArea();
     }
     if (_area != districtsArea) {

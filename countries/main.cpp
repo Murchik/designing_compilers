@@ -4,7 +4,7 @@
 
 #include "Country.hpp"
 
-enum State { END, START, NAME, SIZE, CLOSE_BRACKET, ERROR };
+enum State { END, START, NAME, SIZE, CLOSE_BRACKET, INVALID_VALUE, ERROR };
 
 class StateMachine {
    public:
@@ -27,7 +27,9 @@ class StateMachine {
                     if (_strBuff.empty()) {
                         return ERROR;
                     }
-                    _areaPtr->setName(_strBuff);  // ПРОВЕРКА
+                    if (_areaPtr->setName(_strBuff) != _strBuff) {
+                        return INVALID_VALUE;
+                    }
                     _strBuff.clear();
                     return SIZE;
                 }
@@ -43,7 +45,9 @@ class StateMachine {
                         return ERROR;
                     }
                     int num = std::stoi(_strBuff);
-                    _areaPtr->setArea(num);  // ПРОВЕРКА
+                    if (_areaPtr->setArea(num) != num) {
+                        return INVALID_VALUE;
+                    }
                     _strBuff.clear();
 
                     Area* tmpAreaPtr = _areaPtr->createChild();
@@ -57,7 +61,9 @@ class StateMachine {
                         return ERROR;
                     }
                     int num = std::stoi(_strBuff);
-                    _areaPtr->setArea(num);  // ПРОВЕРКА
+                    if (_areaPtr->setArea(num) != num) {
+                        return INVALID_VALUE;
+                    }
                     _strBuff.clear();
 
                     Area* tmpAreaPtr = _areaPtr->createSibling();
@@ -71,7 +77,9 @@ class StateMachine {
                         return ERROR;
                     }
                     int num = std::stoi(_strBuff);
-                    _areaPtr->setArea(num);  // ПРОВЕРКА
+                    if (_areaPtr->setArea(num) != num) {
+                        return INVALID_VALUE;
+                    }
                     _strBuff.clear();
 
                     Area* tmpAreaPtr = _areaPtr->getParent();
@@ -79,6 +87,9 @@ class StateMachine {
                         return ERROR;
                     }
                     _areaPtr = tmpAreaPtr;
+                    if (!_areaPtr->isValid()) {
+                        return INVALID_VALUE;
+                    }
                     return CLOSE_BRACKET;
                 }
                 return ERROR;
@@ -98,11 +109,18 @@ class StateMachine {
                         return ERROR;
                     }
                     _areaPtr = tmpAreaPtr;
+                    if (!_areaPtr->isValid()) {
+                        return INVALID_VALUE;
+                    }
                     return CLOSE_BRACKET;
                 } else if (ch == '\n') {
                     return END;
                 }
                 return ERROR;
+            } break;
+
+            case INVALID_VALUE: {
+                return INVALID_VALUE;
             } break;
 
             case ERROR: {
@@ -140,13 +158,16 @@ int main() {
 
     int i = 0;
     State s = START;
-    while (s != END && s != ERROR) {
+    while (s != END && s != ERROR && s != INVALID_VALUE) {
         s = sm.getNewState(s, data[i]);
         i++;
     }
 
     if (s == ERROR) {
         std::cout << "Syntax Error - symb:" << data[i - 1] << ", i = " << i
+                  << std::endl;
+    } else if (s == INVALID_VALUE) {
+        std::cout << "Invalid Value - symb:" << data[i - 1] << ", i = " << i
                   << std::endl;
     } else {
         std::cout << sm.getCountry() << std::endl;

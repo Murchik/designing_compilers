@@ -7,6 +7,8 @@ class District : public Area {
     District();
     ~District();
 
+    virtual bool isValid() override;
+
     virtual Area* createChild() override;
     virtual Area* createSibling() override;
 };

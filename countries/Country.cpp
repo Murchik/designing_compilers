@@ -8,7 +8,7 @@ Country::~Country() {}
 
 bool Country::isValid() {
     int regionsArea = 0;
-    for (const auto& region : _regions) {
+    for (auto& region : _regions) {
         if (!region->isValid()) {
             return false;
         }

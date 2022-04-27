@@ -7,7 +7,7 @@ class Country : public Area {
     Country();
     ~Country();
 
-    bool isValid();
+    virtual bool isValid() override;
 
     virtual Area* createChild() override;
     virtual Area* createSibling() override;

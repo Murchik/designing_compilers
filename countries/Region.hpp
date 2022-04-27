@@ -9,7 +9,7 @@ class Region : public Area {
     Region();
     ~Region();
 
-    bool isValid() const;
+    virtual bool isValid() override;
 
     virtual Area* createChild() override;
     virtual Area* createSibling() override;
