@@ -22,6 +22,10 @@ std::string Area::setName(const std::string& name) {
     return getName();
 }
 
+Area* Area::getParent() const { return _parent; }
+
+void Area::setParent(Area* parentPtr) { _parent = parentPtr; }
+
 std::ostream& operator<<(std::ostream& os, const Area& a) {
     os << a.getName() << " : " << a.getArea();
     return os;

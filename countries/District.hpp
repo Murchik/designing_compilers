@@ -5,6 +5,8 @@
 class District : public Area {
    public:
     District();
-    District(const std::string& name, int area) : Area(name, area){};
     ~District();
+
+    virtual Area* createChild() override;
+    virtual Area* createSibling() override;
 };

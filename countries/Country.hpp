@@ -5,17 +5,16 @@
 class Country : public Area {
    public:
     Country();
-    Country(const std::string& name, int area) : Area(name, area){};
     ~Country();
-
-    void addRegion(const Region& area);
-    void addRegion(const std::string& name, int area);
 
     bool isValid();
 
-    std::vector<Region>::const_iterator begin() const;
-    std::vector<Region>::const_iterator end() const;
+    virtual Area* createChild() override;
+    virtual Area* createSibling() override;
+
+    std::vector<Region*>::const_iterator begin() const;
+    std::vector<Region*>::const_iterator end() const;
 
    private:
-    std::vector<Region> _regions;
+    std::vector<Region*> _regions;
 };
