@@ -25,7 +25,7 @@ ifndef FLEX
 	$(error flex is not available. Please install flex)
 endif
 	flex $(FLEXSOURCES)
-	$(CC) $(CFLAGS) tree.cpp lex.yy.c y.tab.c -o $(EXECUTABLE)
+	$(CC) $(CFLAGS) lex.yy.c y.tab.c -o $(EXECUTABLE)
 
 clean:
 	rm -rf *.yy.c *.tab.h *.tab.c $(EXECUTABLE)
