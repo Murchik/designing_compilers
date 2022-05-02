@@ -164,10 +164,10 @@ int main() {
     }
 
     if (s == ERROR) {
-        std::cout << "Syntax Error - symb:" << data[i - 1] << ", i = " << i
+        std::cout << "Syntax Error - symb: '" << data[i - 1] << "', i = " << i
                   << std::endl;
     } else if (s == INVALID_VALUE) {
-        std::cout << "Invalid Value - symb:" << data[i - 1] << ", i = " << i
+        std::cout << "Invalid Value - symb: '" << data[i - 1] << "', i = " << i
                   << std::endl;
     } else {
         std::cout << sm.getCountry() << std::endl;
