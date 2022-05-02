@@ -1,0 +1,5 @@
+while(ten > zero)
+    str := abc;
+    str := "abc";
+    str := abc;
+done
