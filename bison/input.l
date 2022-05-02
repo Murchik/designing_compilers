@@ -4,8 +4,10 @@
  #include "y.tab.h"
  #include <stdio.h>
  int ch;
- extern int yylex(void);
  extern void yyerror(char *);
+ extern "C" {
+    int yylex(void);
+}
 %}
 
 digit[0-9]

@@ -5,6 +5,9 @@
  extern int ch;
  extern char *yytext;
  void yyerror(char *);
+ extern "C" {
+    int yylex(void);
+}
 %}
 
 %token WHILE DONE ID LITERA
