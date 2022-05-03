@@ -4,43 +4,68 @@
  extern int yylineno;
  extern int ch;
  extern char *yytext;
+
  void yyerror(char *);
  extern "C" {
     int yylex(void);
 }
+
+ #include "ast.h"
+
+ Node* root;
 %}
 
-%token WHILE DONE ID LITERA
+%code requires {
+    #include "ast.h"
+}
+
+%union {
+    Node* node;
+    char* str;
+}
+
+%type<node> program
+%type<node> while
+%type<node> statement
+%type<node> assignment
+%type<node> comparison
+%type<node> identifier
+%type<node> literal
+
+%token<str> ID
+%token<str> LITERA
+
+%token WHILE DONE
 %right ASSIGN
 %left CMP
 
 %%
 program: while {
-    printf("\nprogram\n");
-}
-while: WHILE '('comparison')' statement DONE {
-    printf("\nwhile\n");
+    root = $1;
 }
 statement: assignment';' {
-    printf("\nstatement\n");
+    $$ = make_stmt_node($1, NULL);
 }
            | assignment';' statement {
-    printf("\nstatement\n");
+    $$ = make_stmt_node($1, $3);
+}
+while: WHILE '('comparison')' statement DONE {
+    $$ = make_while_node($3, $5);
 }
 assignment: identifier ASSIGN identifier{
-    printf("\nassignment\n");
+    $$ = make_op_node(OP_ASSIGN, $1, $3);
 }
             | identifier ASSIGN literal {
-    printf("\nassignment\n");
+    $$ = make_op_node(OP_ASSIGN, $1, $3);
 }
 comparison: identifier CMP identifier {
-    printf("\ncomparison\n");
+    $$ = make_op_node(OP_CMP, $1, $3);
 }
 literal: LITERA {
-    printf("\nliteral\n");
+    $$ = make_literal_node($1);
 }
 identifier: ID {
-    printf("\nprimary expression\n");
+    $$ = make_id_node($1);
 }
 %%
 
@@ -59,6 +84,11 @@ int main(int argc, char **argv) {
     }
     ch = 1;
     yylineno = 1;
-    yyparse();
+
+    int ret = yyparse();
+    if (ret == 0) {
+        traverse(root);
+    }
+
     return 0;
 }

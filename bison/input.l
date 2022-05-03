@@ -39,11 +39,13 @@ done {
 
 (\".*\") {
     ch += yyleng;
+    yylval.str = yytext;
     return LITERA;
 }
 
 ("_"|{letter})("_"|{letter}|{digit})* {
     ch += yyleng;
+    yylval.str = yytext;
     return ID;
 }
 
